@@ -5,6 +5,7 @@ import ChakraProviders from "@contexts/ChakraProvider";
 import ClientProvider from "@contexts/AuthProvider";
 import { getServerSession } from "next-auth";
 import { authOptions } from '@app/api/auth/[...nextauth]/authOptions';
+import { ApolloWrapper } from '@contexts/ApolloWrapper';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,7 +26,9 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <ClientProvider session={session}>
-          <ChakraProviders>{children}</ChakraProviders>
+          <ApolloWrapper>
+            <ChakraProviders>{children}</ChakraProviders>
+          </ApolloWrapper>
         </ClientProvider>
       </body>
     </html>

@@ -149,7 +149,7 @@ export const authOptions: AuthOptions = {
     },
   },
   pages: {
-    // signIn: '/auth/signin',
+    signIn: '/',
     // signOut: '/auth/signout',
     error: '/auth/error', // Error code passed in query string as ?error=
     // verifyRequest: '/auth/verify-request', // (used for check email message)
@@ -259,6 +259,15 @@ async function registerUser({
       }
     `;
 
+  const gasStationQuery = `
+    query gasStationQuery {
+      gas_stations {
+        id
+        name
+      }
+    }
+  `;
+
   const registerMutation = `
       mutation registerMutation($user: users_insert_input!) {
         insert_users(objects: [$user]) {
@@ -267,8 +276,8 @@ async function registerUser({
                 email
                 password_hash
                 role {
-                    id
-                    name
+                  id
+                  name
                 }
             }
           }
@@ -286,11 +295,36 @@ async function registerUser({
     data: roleGraphqlQuery,
   });
 
+  if (result_role?.data?.errors) {
+    throw new Error(result_role?.data?.errors[0].message);
+  }
+
   if (!result_role?.data?.data || result_role?.data?.data?.roles?.length == 0) {
     throw new Error('User role not found');
   }
 
   const role_id = result_role.data.data.roles[0].id;
+
+  const gasStationGraphqlQuery = {
+    operationName: 'gasStationQuery',
+    query: gasStationQuery,
+  };
+
+  const result_gas_station = await axios.request({
+    ...config.gqlConfig.options,
+    data: gasStationGraphqlQuery,
+  });
+
+  if (result_gas_station?.data?.errors) {
+    console.error(result_gas_station?.data?.errors);
+    throw new Error(result_gas_station?.data?.errors[0].message);
+  }
+
+  if (!result_gas_station?.data?.data || result_gas_station?.data?.data?.gas_stations?.length == 0) {
+    throw new Error('User role not found');
+  }
+
+  const gas_station_id = result_gas_station.data.data.gas_stations[0].id;
 
   const graphqlMutation = {
     operationName: 'registerMutation',
@@ -302,6 +336,7 @@ async function registerUser({
         // first_name: firstName,
         // last_name: lastName,
         role_id: role_id,
+        gas_station_id: gas_station_id
       },
     },
   };
