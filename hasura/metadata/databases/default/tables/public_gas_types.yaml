@@ -1,0 +1,13 @@
+table:
+  name: gas_types
+  schema: public
+array_relationships:
+  - name: gas_tanks
+    using:
+      manual_configuration:
+        column_mapping:
+          id: gas_type_id
+        insertion_order: null
+        remote_table:
+          name: gas_tanks
+          schema: public

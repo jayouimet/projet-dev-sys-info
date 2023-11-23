@@ -1,0 +1,22 @@
+table:
+  name: transactions
+  schema: public
+object_relationships:
+  - name: gas_station
+    using:
+      manual_configuration:
+        column_mapping:
+          gas_station_id: id
+        insertion_order: null
+        remote_table:
+          name: gas_stations
+          schema: public
+  - name: user
+    using:
+      manual_configuration:
+        column_mapping:
+          user_id: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: public

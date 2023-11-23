@@ -1,0 +1,32 @@
+table:
+  name: gas_tanks
+  schema: public
+object_relationships:
+  - name: gas_station
+    using:
+      manual_configuration:
+        column_mapping:
+          gas_station_id: id
+        insertion_order: null
+        remote_table:
+          name: gas_stations
+          schema: public
+  - name: gas_type
+    using:
+      manual_configuration:
+        column_mapping:
+          gas_type_id: id
+        insertion_order: null
+        remote_table:
+          name: gas_types
+          schema: public
+array_relationships:
+  - name: gas_pumps
+    using:
+      manual_configuration:
+        column_mapping:
+          id: gas_tank_id
+        insertion_order: null
+        remote_table:
+          name: gas_pumps
+          schema: public

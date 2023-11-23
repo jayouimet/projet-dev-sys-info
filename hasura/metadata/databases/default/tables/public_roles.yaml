@@ -1,0 +1,13 @@
+table:
+  name: roles
+  schema: public
+array_relationships:
+  - name: users
+    using:
+      manual_configuration:
+        column_mapping:
+          id: role_id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: public
