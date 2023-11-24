@@ -24,7 +24,9 @@
       "@utils/*": ["utils/*"],
       "@components/*": ["components/*"],
       "@contexts/*": ["contexts/*"],
-      "@styles/*": ["styles/*"]
+      "@styles/*": ["styles/*"],
+      "@gql/*": ["gql/*"],
+      "@sgp_types/*": ["SGPtypes/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

@@ -1,6 +1,5 @@
 import SidebarMenu from "@components/SidebarMenu";
 
-
 export default function UsersLayout({
   children,
 }: {

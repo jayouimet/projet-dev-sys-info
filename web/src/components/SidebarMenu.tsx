@@ -1,7 +1,7 @@
 "use client";
 
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
-import { Box, BoxProps, Button, Collapse, Flex, Icon, IconButton, Stack, useDisclosure } from "@chakra-ui/react";
+import { Box, BoxProps, Button, Collapse, Flex, Icon, IconButton, Spacer, Stack, useDisclosure } from "@chakra-ui/react";
 import { FiLogOut, FiMenu } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -41,8 +41,13 @@ const SidebarMenu = ({ children, ...rest }: SidebarMenuProps) => {
   const [hidden, setHidden] = useState(!isOpen);
 
   return (
-    <Box minH="100vh" {...rest}>
-      <Box pos="fixed" h="full" {...rest}>
+    <Flex minH="100vh" {...rest}>
+      <Box 
+        pos="fixed" 
+        h="full" 
+        display={'block'}
+        zIndex="999"
+      >
         <Flex
           transition="3s ease"
           bg={'whiteAlpha.400'}
@@ -115,9 +120,11 @@ const SidebarMenu = ({ children, ...rest }: SidebarMenuProps) => {
               width={18}
             />
           </Box>
-        </Flex>
+        </Flex> 
       </Box>
-    </Box>
+      <Box w={14}/>
+      {children}
+    </Flex>
   );
 }
 
