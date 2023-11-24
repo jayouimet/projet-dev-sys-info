@@ -50,7 +50,7 @@ const SidebarMenu = ({ children, ...rest }: SidebarMenuProps) => {
       >
         <Flex
           transition="3s ease"
-          bg={'whiteAlpha.400'}
+          bg={'gray.600'}
           borderRightRadius="2px"
           align="center"
           direction={'column'}
@@ -58,6 +58,7 @@ const SidebarMenu = ({ children, ...rest }: SidebarMenuProps) => {
           w={'fit-content'}
           h="full"
           p={2}
+          zIndex="999"
         >
           <Stack>
             <IconButton
