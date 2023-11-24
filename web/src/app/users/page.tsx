@@ -1,55 +1,40 @@
 'use client';
 
+import { useQuery } from "@apollo/client";
 import { Box, Card, CardBody, CardHeader, Center, Heading } from "@chakra-ui/react";
 import DataTable from "@components/DataTable";
+import { GET_USERS } from "@gql/users";
+import ISGPUser from "@sgp_types/SGPUser/ISGPUser";
 import { createColumnHelper } from "@tanstack/react-table";
 import { Fragment } from "react";
 
-type UnitConversion = {
-  fromUnit: string;
-  toUnit: string;
-  factor: number;
-};
-
-const data: UnitConversion[] = [
-  {
-    fromUnit: "inches",
-    toUnit: "millimetres (mm)",
-    factor: 25.4
-  },
-  {
-    fromUnit: "feet",
-    toUnit: "centimetres (cm)",
-    factor: 30.48
-  },
-  {
-    fromUnit: "yards",
-    toUnit: "metres (m)",
-    factor: 0.91444
-  }
-];
-
-const columnHelper = createColumnHelper<UnitConversion>();
+const columnHelper = createColumnHelper<ISGPUser>();
 
 const columns = [
-  columnHelper.accessor("fromUnit", {
+  columnHelper.accessor("name", {
     cell: (info) => info.getValue(),
-    header: "To convert"
+    header: "Name"
   }),
-  columnHelper.accessor("toUnit", {
+  columnHelper.accessor("email", {
     cell: (info) => info.getValue(),
-    header: "Into"
+    header: "Email"
   }),
-  columnHelper.accessor("factor", {
+  columnHelper.accessor("phone_number", {
     cell: (info) => info.getValue(),
-    header: "Multiply by",
-    meta: {
+    header: "Phone number",
+    /*meta: {
       isNumeric: true
-    }
+    }*/
   })
 ];
 
 const UsersPage = () => {
+  const { data, loading, error, refetch } = useQuery(GET_USERS, {
+    variables: {
+      where: {}
+    },
+  })
+
   return (
     <Fragment>
       <Center m={'auto'}>
@@ -60,7 +45,12 @@ const UsersPage = () => {
             </Heading>
           </CardHeader>
           <CardBody>
-            <DataTable columns={columns} data={data} />
+            <DataTable 
+              handleEdit={data => console.log(data)} 
+              handleDelete={data => console.log(data)} 
+              columns={columns} 
+              data={loading ? [] : data.users} 
+            />
           </CardBody>
         </Card>
       </Center>

@@ -4,10 +4,11 @@ import { gql } from "@apollo/client";
 /*----------------------------     QUERIES    --------------------------------*/
 ////////////////////////////////////////////////////////////////////////////////
 
-const getUsers = gql`
+export const GET_USERS = gql`
   query getUsers ($where: users_bool_exp!) {
     users (where: $where) {
       id
+      name
       email
       phone_number
       employee_number
@@ -16,6 +17,18 @@ const getUsers = gql`
         id
         name
       }
+    }
+  }
+`
+
+////////////////////////////////////////////////////////////////////////////////
+/*---------------------------     DELETIONS    -------------------------------*/
+////////////////////////////////////////////////////////////////////////////////
+
+export const DELETE_USER = gql`
+  mutation deleteUser ($id: string!) {
+    delete_users_by_pk (id: $id) {
+      id
     }
   }
 `

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import { Table, Thead, Tbody, Tr, Th, Td, chakra } from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tr, Th, Td, chakra, Button } from "@chakra-ui/react";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import {
   useReactTable,
@@ -15,11 +15,15 @@ import {
 interface DataTableProps<Data extends object> {
   data: Data[];
   columns: ColumnDef<Data, any>[];
+  handleDelete?: (data: Data) => void
+  handleEdit?: (data: Data) => void
 };
 
 function DataTable<Data extends object>({
   data,
-  columns
+  columns,
+  handleEdit,
+  handleDelete
 }: DataTableProps<Data>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const table = useReactTable({
@@ -64,6 +68,10 @@ function DataTable<Data extends object>({
                 </Th>
               );
             })}
+            { handleEdit && handleDelete &&
+            <Th>
+              Action
+            </Th>}
           </Tr>
         ))}
       </Thead>
@@ -79,6 +87,11 @@ function DataTable<Data extends object>({
                 </Td>
               );
             })}
+            { handleEdit && handleDelete &&
+            <Td>
+              <Button onClick={() => handleEdit(row.original)}>Edit</Button>
+              <Button onClick={() => handleDelete(row.original)}>Delete</Button>
+            </Td>}
           </Tr>
         ))}
       </Tbody>
