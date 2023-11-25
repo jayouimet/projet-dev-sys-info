@@ -1,7 +1,7 @@
 import ISGPGasStation from "@sgp_types/SGPGasStation/ISGPGasStation";
 import ISGPUser from "@sgp_types/SGPUser/ISGPUser";
 
-export default interface ISGPRole {
+export default interface ISGPTransaction {
   id: string;
   amount: number;
   type: string;
