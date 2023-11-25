@@ -36,7 +36,7 @@ const links: Array<LinkItemProps> = [
   },
   {
     text: "Réservoirs",
-    href: "/dashboard"
+    href: "/tanks"
   }
 ]
 
