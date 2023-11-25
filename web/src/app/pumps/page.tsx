@@ -3,47 +3,52 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { Card, CardBody, CardHeader, Heading } from "@chakra-ui/react";
 import DataTable from "@components/DataTable";
+import { DELETE_GAS_PUMP, GET_GAS_PUMPS } from "@gql/gas_pumps";
 import { DELETE_USER, GET_USERS } from "@gql/users";
-import ISGPUser from "@sgp_types/SGPUser/ISGPUser";
+import ISGPGasPump from "@sgp_types/SGPGasPump/ISGPGasPump";
+import SGPUser from "@sgp_types/SGPUser/SGPUser";
 import { createColumnHelper } from "@tanstack/react-table";
 
-const columnHelper = createColumnHelper<ISGPUser>();
+const columnHelper = createColumnHelper<ISGPGasPump>();
 
 const columns = [
   columnHelper.accessor("name", {
     cell: (info) => info.getValue(),
     header: "Name"
   }),
-  columnHelper.accessor("role.name", {
+  columnHelper.accessor("gas_tank.gas_type.name", {
     cell: (info) => info.getValue(),
-    header: "Role"
+    header: "Gas Type"
   }),
-  columnHelper.accessor("email", {
-    cell: (info) => info.getValue(),
-    header: "Email"
-  }),
-  columnHelper.accessor("phone_number", {
-    cell: (info) => info.getValue(),
-    header: "Phone number",
-    /*meta: {
+  columnHelper.accessor("gas_tank.gas_type.price", {
+    cell: (info) => (info.getValue() / 100).toFixed(2),
+    header: "Price",
+    meta: {
       isNumeric: true
-    }*/
-  })
+    }
+  }),
+  columnHelper.accessor("gas_tank.volume", {
+    cell: (info) => info.getValue(),
+    header: "Volume",
+    meta: {
+      isNumeric: true
+    }
+  }),
 ];
 
-const UsersPage = () => {
-  const { data, loading, error, refetch } = useQuery(GET_USERS, {
+const GasPumpsPage = () => {
+  const { data, loading, error, refetch } = useQuery(GET_GAS_PUMPS, {
     variables: {
       where: {}
     },
   })
 
-  const [deleteUser, { data: delete_data, loading: delete_loading, error: delete_error }] = useMutation(DELETE_USER);
+  const [deleteGasPump, { data: delete_data, loading: delete_loading, error: delete_error }] = useMutation(DELETE_GAS_PUMP);
 
-  const handleDelete = (user: ISGPUser) => {
-    deleteUser({
+  const handleDelete = (gas_pump: ISGPGasPump) => {
+    deleteGasPump({
       variables: {
-        id: user.id
+        id: gas_pump.id
       },
       onCompleted: refetch
     });
@@ -56,7 +61,7 @@ const UsersPage = () => {
     >
       <CardHeader>
         <Heading>
-          Utilisateurs
+          Pompes à essence
         </Heading>
       </CardHeader>
       <CardBody>
@@ -64,11 +69,11 @@ const UsersPage = () => {
           handleEdit={data => console.log(data)} 
           handleDelete={data => handleDelete(data)} 
           columns={columns} 
-          data={loading ? [] : data.users} 
+          data={loading ? [] : data.gas_pumps} 
         />
       </CardBody>
     </Card>
   );
 }
 
-export default UsersPage;
+export default GasPumpsPage;

@@ -19,6 +19,10 @@ interface LinkItemProps {
 
 const links: Array<LinkItemProps> = [
   {
+    text: "Accueil",
+    href: "/dashboard"
+  },
+  {
     text: "Utilisateurs",
     href: "/users"
   },
@@ -28,7 +32,7 @@ const links: Array<LinkItemProps> = [
   },
   {
     text: "Pompes",
-    href: "/dashboard"
+    href: "/pumps"
   },
   {
     text: "Réservoirs",
