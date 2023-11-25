@@ -3,11 +3,25 @@ import { Inter } from 'next/font/google'
 import "@styles/globals.css";
 import ChakraProviders from "@contexts/ChakraProvider";
 import ClientProvider from "@contexts/AuthProvider";
-import { getServerSession } from "next-auth";
+import { Session, getServerSession } from "next-auth";
 import { authOptions } from '@app/api/auth/[...nextauth]/authOptions';
 import { ApolloWrapper } from '@contexts/ApolloWrapper';
+import { headers } from 'next/headers'
 
 const inter = Inter({ subsets: ['latin'] })
+
+
+async function getSession(cookie: string): Promise<Session> {
+  const response = await fetch(`${process.env.NEXTAUTH_URL}/session`, {
+    headers: {
+      cookie,
+    }
+  })
+
+  const session = await response.json()
+
+  return Object.keys(session).length > 0 ? session : null
+}
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -21,7 +35,9 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // const session = await getServerSession(authOptions);
   const session = await getServerSession(authOptions);
+
   return (
     <html lang="en">
       <body>

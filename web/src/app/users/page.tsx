@@ -1,10 +1,11 @@
 'use client';
 
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { Box, Card, CardBody, CardHeader, Center, Heading } from "@chakra-ui/react";
 import DataTable from "@components/DataTable";
-import { GET_USERS } from "@gql/users";
+import { DELETE_USER, GET_USERS } from "@gql/users";
 import ISGPUser from "@sgp_types/SGPUser/ISGPUser";
+import SGPUser from "@sgp_types/SGPUser/SGPUser";
 import { createColumnHelper } from "@tanstack/react-table";
 import { Fragment } from "react";
 
@@ -14,6 +15,10 @@ const columns = [
   columnHelper.accessor("name", {
     cell: (info) => info.getValue(),
     header: "Name"
+  }),
+  columnHelper.accessor("role.name", {
+    cell: (info) => info.getValue(),
+    header: "Role"
   }),
   columnHelper.accessor("email", {
     cell: (info) => info.getValue(),
@@ -35,26 +40,36 @@ const UsersPage = () => {
     },
   })
 
+  const [deleteUser, { data: delete_data, loading: delete_loading, error: delete_error }] = useMutation(DELETE_USER);
+
+  const handleDelete = (user: SGPUser) => {
+    deleteUser({
+      variables: {
+        id: user.id
+      },
+      onCompleted: refetch
+    });
+  }
+
   return (
-    <Fragment>
-      <Center m={'auto'}>
-        <Card>
-          <CardHeader>
-            <Heading>
-              Utilisateurs
-            </Heading>
-          </CardHeader>
-          <CardBody>
-            <DataTable 
-              handleEdit={data => console.log(data)} 
-              handleDelete={data => console.log(data)} 
-              columns={columns} 
-              data={loading ? [] : data.users} 
-            />
-          </CardBody>
-        </Card>
-      </Center>
-    </Fragment>
+    <Card 
+      w={'100%'}
+      h={'100vh'}
+    >
+      <CardHeader>
+        <Heading>
+          Utilisateurs
+        </Heading>
+      </CardHeader>
+      <CardBody>
+        <DataTable 
+          handleEdit={data => console.log(data)} 
+          handleDelete={data => handleDelete(data)} 
+          columns={columns} 
+          data={loading ? [] : data.users} 
+        />
+      </CardBody>
+    </Card>
   );
 }
 

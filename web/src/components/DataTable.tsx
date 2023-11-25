@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import { Table, Thead, Tbody, Tr, Th, Td, chakra, Button } from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tr, Th, Td, chakra, Button, Stack } from "@chakra-ui/react";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import {
   useReactTable,
@@ -38,7 +38,7 @@ function DataTable<Data extends object>({
   });
 
   return (
-    <Table>
+    <Table variant={'simple'}>
       <Thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <Tr key={headerGroup.id}>
@@ -89,8 +89,10 @@ function DataTable<Data extends object>({
             })}
             { handleEdit && handleDelete &&
             <Td>
-              <Button onClick={() => handleEdit(row.original)}>Edit</Button>
-              <Button onClick={() => handleDelete(row.original)}>Delete</Button>
+              <Stack direction={"row"}>
+                <Button onClick={() => handleEdit(row.original)}>Edit</Button>
+                <Button colorScheme="red" onClick={() => handleDelete(row.original)}>Delete</Button>
+              </Stack>
             </Td>}
           </Tr>
         ))}

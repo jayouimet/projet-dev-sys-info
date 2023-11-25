@@ -1,3 +1,7 @@
+import ISGPGasStation from "@sgp_types/SGPGasStation/ISGPGasStation";
+import ISGPRole from "@sgp_types/SGPRole/ISGPRole";
+import ISGPTransaction from "@sgp_types/SGPTransaction/ISGPTransaction";
+
 export default interface ISGPUser {
   id: string;
   email?: string;
@@ -5,8 +9,7 @@ export default interface ISGPUser {
   name?: string;
   // employee_number: string;
   balance: number;
-  /* role {
-    id
-    name
-  }*/
+  role?: ISGPRole;
+  gas_station?: ISGPGasStation;
+  transactions?: Array<ISGPTransaction>;
 }

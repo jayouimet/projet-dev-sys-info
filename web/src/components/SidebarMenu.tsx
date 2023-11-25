@@ -75,7 +75,7 @@ const SidebarMenu = ({ children, ...rest }: SidebarMenuProps) => {
               initial={false}
               onAnimationStart={() => setHidden(false)}
               onAnimationComplete={() => setHidden(!isOpen)}
-              animate={{ width: isOpen ? 150 : 0 }}
+              animate={{ width: isOpen ? 200 : 0 }}
               style={{
                 whiteSpace: 'nowrap',
                 overflow: 'hidden'
