@@ -3,9 +3,16 @@ import ISGPUser from "@sgp_types/SGPUser/ISGPUser";
 
 export default interface ISGPTransaction {
   id: string;
-  amount: number;
+  total: number;
+  subtotal: number;
+  volume: number;
+  taxes: number;
   type: string;
-  data: object;
+  data: {
+    [key: string]: string
+  };
   user?: ISGPUser;
   gas_station?: ISGPGasStation;
+  unit_price: number;
+  created_at: string;
 }

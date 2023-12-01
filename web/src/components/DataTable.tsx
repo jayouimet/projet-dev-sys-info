@@ -15,15 +15,17 @@ import {
 interface DataTableProps<Data extends object> {
   data: Data[];
   columns: ColumnDef<Data, any>[];
-  handleDelete?: (data: Data) => void
-  handleEdit?: (data: Data) => void
+  handleDelete?: (data: Data) => void;
+  handleEdit?: (data: Data) => void;
+  handleDisplay?: (data: Data) => void;
 };
 
 function DataTable<Data extends object>({
   data,
   columns,
   handleEdit,
-  handleDelete
+  handleDelete,
+  handleDisplay
 }: DataTableProps<Data>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const table = useReactTable({
@@ -68,10 +70,10 @@ function DataTable<Data extends object>({
                 </Th>
               );
             })}
-            { handleEdit && handleDelete &&
-            <Th>
-              Action
-            </Th>}
+            {handleEdit && handleDelete &&
+              <Th>
+                Action
+              </Th>}
           </Tr>
         ))}
       </Thead>
@@ -87,13 +89,18 @@ function DataTable<Data extends object>({
                 </Td>
               );
             })}
-            { handleEdit && handleDelete &&
-            <Td>
-              <Stack direction={"row"}>
-                <Button onClick={() => handleEdit(row.original)}>Edit</Button>
-                <Button colorScheme="red" onClick={() => handleDelete(row.original)}>Delete</Button>
-              </Stack>
-            </Td>}
+            {
+              handleEdit && handleDelete &&
+              <Td>
+                <Stack direction={"row"}>
+                  {
+                    handleDisplay &&
+                    <Button colorScheme="white" onClick={() => handleDisplay(row.original)}>Display</Button>
+                  }
+                  <Button onClick={() => handleEdit(row.original)}>Edit</Button>
+                  <Button colorScheme="red" onClick={() => handleDelete(row.original)}>Delete</Button>
+                </Stack>
+              </Td>}
           </Tr>
         ))}
       </Tbody>

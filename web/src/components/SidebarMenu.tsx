@@ -28,7 +28,7 @@ const links: Array<LinkItemProps> = [
   },
   {
     text: "Transactions",
-    href: "/dashboard"
+    href: "/transactions"
   },
   {
     text: "Pompes",
