@@ -30,13 +30,13 @@ const DashboardPage = () => {
         <Box my={40} fontSize={50}>
           SGP
         </Box>
-        <Stack dir={"column"} gap={5}>
+        <Stack dir={"column"} width={'fit-content'} gap={5}>
           {
             pages.map(page => {
               if (page.show === undefined || page.show()) {
                 return (
                   <Link href={page.url} key={page.label}>
-                    <Button w={"15vw"}> {page.label}</Button>
+                    <Button w={"100%"}> {page.label}</Button>
                   </Link>
                 )
               }
