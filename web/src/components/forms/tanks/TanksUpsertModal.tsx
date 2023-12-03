@@ -155,7 +155,7 @@ const TanksUpsertModal = ({
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button variant="solid" mr={3} type="submit">
+            <Button mr={3} type="submit">
               Submit
             </Button>
             <Button colorScheme="red" onClick={onClose}>
