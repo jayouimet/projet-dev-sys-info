@@ -1,7 +1,7 @@
 import ISGPUser from "@sgp_types/SGPUser/ISGPUser";
 
 export default class SGPUser implements ISGPUser {
-  id: string;
+  id?: string;
   email?: string;
   phone_number?: string;
   balance: number;

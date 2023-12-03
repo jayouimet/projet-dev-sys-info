@@ -10,10 +10,6 @@ export const GET_TRANSACTIONS = gql`
       id
       total
       type 
-      gas_station {
-        id 
-        name 
-      }
       data
       subtotal
       taxes 

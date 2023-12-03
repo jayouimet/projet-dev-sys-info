@@ -123,7 +123,7 @@ export const authOptions: AuthOptions = {
         iat: Math.floor(Date.now() / 1000),
         exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60,
         'https://hasura.io/jwt/claims': {
-          'x-hasura-allowed-roles': ['user', 'anonymous', 'admin'],
+          'x-hasura-allowed-roles': ['user', 'clerk', 'anonymous', 'admin'],
           'x-hasura-default-role': token?.role,
           'x-hasura-user-id': token?.id,
         },
@@ -151,7 +151,7 @@ export const authOptions: AuthOptions = {
   pages: {
     signIn: '/',
     // signOut: '/auth/signout',
-    error: '/auth/error', // Error code passed in query string as ?error=
+    // error: '/auth/error', // Error code passed in query string as ?error=
     // verifyRequest: '/auth/verify-request', // (used for check email message)
     // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
   },
@@ -259,15 +259,6 @@ async function registerUser({
       }
     `;
 
-  const gasStationQuery = `
-    query gasStationQuery {
-      gas_stations {
-        id
-        name
-      }
-    }
-  `;
-
   const registerMutation = `
       mutation registerMutation($user: users_insert_input!) {
         insert_users(objects: [$user]) {
@@ -305,27 +296,6 @@ async function registerUser({
 
   const role_id = result_role.data.data.roles[0].id;
 
-  const gasStationGraphqlQuery = {
-    operationName: 'gasStationQuery',
-    query: gasStationQuery,
-  };
-
-  const result_gas_station = await axios.request({
-    ...config.gqlConfig.options,
-    data: gasStationGraphqlQuery,
-  });
-
-  if (result_gas_station?.data?.errors) {
-    console.error(result_gas_station?.data?.errors);
-    throw new Error(result_gas_station?.data?.errors[0].message);
-  }
-
-  if (!result_gas_station?.data?.data || result_gas_station?.data?.data?.gas_stations?.length == 0) {
-    throw new Error('User role not found');
-  }
-
-  const gas_station_id = result_gas_station.data.data.gas_stations[0].id;
-
   const graphqlMutation = {
     operationName: 'registerMutation',
     query: registerMutation,
@@ -336,7 +306,6 @@ async function registerUser({
         // first_name: firstName,
         // last_name: lastName,
         role_id: role_id,
-        gas_station_id: gas_station_id
       },
     },
   };

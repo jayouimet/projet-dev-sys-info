@@ -18,6 +18,8 @@ export async function middleware(req: NextRequest) {
 
   const adminRoutes = ['/users']
 
+  const clerkRoutes = ['/users']
+
   if (token) {
     // if we have a token here, it is verified, we can now decode it using edge runtime compatible jwt-decode module.
     const decodedJwt = jwtDecode<any>(token);
@@ -26,8 +28,10 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL('/', req.url));
     }
     if (
-      adminRoutes.some((adminroute) => req.nextUrl.pathname.startsWith(adminroute)) &&
-      (decodedJwt.role !== 'admin')
+      (adminRoutes.some((adminroute) => req.nextUrl.pathname.startsWith(adminroute)) &&
+        (decodedJwt.role !== 'admin')) &&
+      (clerkRoutes.some((clerkroute) => req.nextUrl.pathname.startsWith(clerkroute)) &&
+        (decodedJwt.role !== 'clerk'))
     ) {
       return NextResponse.redirect(new URL('/dashboard', req.url));
     }

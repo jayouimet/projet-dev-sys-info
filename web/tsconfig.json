@@ -29,6 +29,6 @@
       "@sgp_types/*": ["SGPtypes/*"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/SGPtypes/SGPPump"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/SGPtypes/SGPPump", "src/app/api/set_password"],
   "exclude": ["node_modules"]
 }

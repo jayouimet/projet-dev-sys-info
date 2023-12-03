@@ -12,10 +12,6 @@ import { useState } from "react";
 const columnHelper = createColumnHelper<ISGPTransaction>();
 
 const columns = [
-  columnHelper.accessor("gas_station.name", {
-    cell: (info) => info.getValue(),
-    header: "Station de gaz"
-  }),
   columnHelper.accessor("type", {
     cell: (info) => info.getValue(),
     header: "Type"
@@ -233,9 +229,6 @@ const TransactionsPage = () => {
                   >
                     <GridItem>Utilisateur Superviseur</GridItem>
                     <GridItem>#2</GridItem>
-
-                    <GridItem>Réservoir</GridItem>
-                    <GridItem>{selectedTransaction.gas_station?.name}</GridItem>
 
                     <GridItem>Moment du pompage</GridItem>
                     <GridItem>{(new Date(selectedTransaction.created_at)).toLocaleString()}</GridItem>

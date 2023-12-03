@@ -1,0 +1,9 @@
+input SetPasswordInput {
+  user_id: String!
+  password: String!
+}
+
+type SetPasswordOutput {
+  result: String!
+}
+

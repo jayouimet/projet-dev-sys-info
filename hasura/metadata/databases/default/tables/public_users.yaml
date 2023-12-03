@@ -2,15 +2,6 @@ table:
   name: users
   schema: public
 object_relationships:
-  - name: gas_station
-    using:
-      manual_configuration:
-        column_mapping:
-          gas_station_id: id
-        insertion_order: null
-        remote_table:
-          name: gas_stations
-          schema: public
   - name: role
     using:
       manual_configuration:
@@ -30,3 +21,61 @@ array_relationships:
         remote_table:
           name: transactions
           schema: public
+insert_permissions:
+  - role: clerk
+    permission:
+      check:
+        role:
+          name:
+            _eq: user
+      columns:
+        - balance
+        - created_at
+        - email
+        - id
+        - name
+        - phone_number
+        - role_id
+        - updated_at
+    comment: ""
+select_permissions:
+  - role: clerk
+    permission:
+      columns:
+        - balance
+        - email
+        - employee_number
+        - name
+        - password_hash
+        - phone_number
+        - created_at
+        - updated_at
+        - id
+        - role_id
+      filter: {}
+    comment: ""
+update_permissions:
+  - role: clerk
+    permission:
+      columns:
+        - balance
+        - created_at
+        - email
+        - id
+        - name
+        - phone_number
+        - updated_at
+      filter:
+        role:
+          name:
+            _eq: user
+      check: null
+    comment: ""
+delete_permissions:
+  - role: clerk
+    permission:
+      filter:
+        role:
+          name:
+            _eq: user
+    comment: ""
