@@ -21,6 +21,7 @@ export async function middleware(req: NextRequest) {
     '/pumps',
     '/tanks',
     '/transactions',
+    '/api/set_password',
   ]
 
   const clerkRoutes = [
@@ -58,5 +59,6 @@ export const config = {
     '/pumps/:path*',
     '/tanks/:path*',
     '/transactions/:path*',
+    '/api/set_password/:path*',
   ],
 };
