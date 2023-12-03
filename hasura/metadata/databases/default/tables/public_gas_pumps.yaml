@@ -11,3 +11,14 @@ object_relationships:
         remote_table:
           name: gas_tanks
           schema: public
+select_permissions:
+  - role: clerk
+    permission:
+      columns:
+        - name
+        - created_at
+        - updated_at
+        - gas_tank_id
+        - id
+      filter: {}
+    comment: ""

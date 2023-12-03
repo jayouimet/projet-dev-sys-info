@@ -11,3 +11,20 @@ object_relationships:
         remote_table:
           name: users
           schema: public
+select_permissions:
+  - role: clerk
+    permission:
+      columns:
+        - subtotal
+        - taxes
+        - total
+        - unit_price
+        - volume
+        - data
+        - type
+        - created_at
+        - updated_at
+        - id
+        - user_id
+      filter: {}
+    comment: ""

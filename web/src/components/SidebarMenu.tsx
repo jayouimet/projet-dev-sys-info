@@ -6,41 +6,60 @@ import { FiLogOut, FiMenu } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Link } from "@chakra-ui/next-js";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 interface SidebarMenuProps extends BoxProps {
   children: React.ReactNode;
 }
 
 interface LinkItemProps {
+  show?: () => boolean;
   text: string;
   href: string;
 }
 
-const links: Array<LinkItemProps> = [
-  {
-    text: "Accueil",
-    href: "/dashboard"
-  },
-  {
-    text: "Utilisateurs",
-    href: "/users"
-  },
-  {
-    text: "Transactions",
-    href: "/transactions"
-  },
-  {
-    text: "Pompes",
-    href: "/pumps"
-  },
-  {
-    text: "Réservoirs",
-    href: "/tanks"
-  }
-]
-
 const SidebarMenu = ({ children, ...rest }: SidebarMenuProps) => {
+  const { data: session } = useSession();
+
+  const links: Array<LinkItemProps> = [
+    {
+      text: "Accueil",
+      href: "/dashboard"
+    },
+    {
+      show: () => { return (
+        session?.user.role === 'admin' ||
+        session?.user.role === 'clerk'
+      )},
+      text: "Utilisateurs",
+      href: "/users"
+    },
+    {
+      show: () => { return (
+        session?.user.role === 'admin' ||
+        session?.user.role === 'clerk'
+      )},
+      text: "Transactions",
+      href: "/transactions"
+    },
+    {
+      show: () => { return (
+        session?.user.role === 'admin' ||
+        session?.user.role === 'clerk'
+      )},
+      text: "Pompes",
+      href: "/pumps"
+    },
+    {
+      show: () => { return (
+        session?.user.role === 'admin' ||
+        session?.user.role === 'clerk'
+      )},
+      text: "Réservoirs",
+      href: "/tanks"
+    }
+  ]
+  
   const { getDisclosureProps, isOpen, onToggle } = useDisclosure();
   const [hidden, setHidden] = useState(!isOpen);
 
@@ -87,17 +106,19 @@ const SidebarMenu = ({ children, ...rest }: SidebarMenuProps) => {
             >
               <Stack mx={2}>
                 {links.map((link, index) => {
-                  return (
-                    <Button
-                      key={`menu-link-${index}`}
-                      variant={'ghost'}
-                      justifyContent={'left'}
-                      as={Link}
-                      href={link.href}
-                    >
-                      {link.text}
-                    </Button>
-                  );
+                  if (link.show === undefined || link.show()) {
+                    return (
+                      <Button
+                        key={`menu-link-${index}`}
+                        variant={'ghost'}
+                        justifyContent={'left'}
+                        as={Link}
+                        href={link.href}
+                      >
+                        {link.text}
+                      </Button>
+                    );
+                  }
                 })}
               </Stack>
             </motion.div>

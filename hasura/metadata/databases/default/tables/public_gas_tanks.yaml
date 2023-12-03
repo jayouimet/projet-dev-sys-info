@@ -21,3 +21,15 @@ array_relationships:
         remote_table:
           name: gas_pumps
           schema: public
+select_permissions:
+  - role: clerk
+    permission:
+      columns:
+        - volume
+        - name
+        - created_at
+        - updated_at
+        - gas_type_id
+        - id
+      filter: {}
+    comment: ""

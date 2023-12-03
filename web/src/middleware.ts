@@ -16,9 +16,19 @@ export async function middleware(req: NextRequest) {
     raw: true,
   });
 
-  const adminRoutes = ['/users']
+  const adminRoutes = [
+    '/users',
+    '/pumps',
+    '/tanks',
+    '/transactions',
+  ]
 
-  const clerkRoutes = ['/users']
+  const clerkRoutes = [
+    '/users',
+    '/pumps',
+    '/tanks',
+    '/transactions',
+  ];
 
   if (token) {
     // if we have a token here, it is verified, we can now decode it using edge runtime compatible jwt-decode module.
@@ -42,5 +52,11 @@ export async function middleware(req: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ['/dashboard/:path*', '/users/:path*'],
+  matcher: [
+    '/dashboard/:path*',
+    '/users/:path*',
+    '/pumps/:path*',
+    '/tanks/:path*',
+    '/transactions/:path*',
+  ],
 };
