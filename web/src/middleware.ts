@@ -17,18 +17,27 @@ export async function middleware(req: NextRequest) {
   });
 
   const adminRoutes = [
+    '/dashboard',
     '/users',
     '/pumps',
     '/tanks',
     '/transactions',
+    '/pump',
     '/api/set_password',
   ]
 
   const clerkRoutes = [
+    '/dashboard',
     '/users',
     '/pumps',
     '/tanks',
     '/transactions',
+    '/pump',
+  ];
+
+  const userRoutes = [
+    '/dashboard',
+    '/pump',
   ];
 
   if (token) {
@@ -38,12 +47,17 @@ export async function middleware(req: NextRequest) {
     if (!decodedJwt.role) {
       return NextResponse.redirect(new URL('/', req.url));
     }
-    if (
-      (adminRoutes.some((adminroute) => req.nextUrl.pathname.startsWith(adminroute)) &&
-        (decodedJwt.role !== 'admin')) &&
-      (clerkRoutes.some((clerkroute) => req.nextUrl.pathname.startsWith(clerkroute)) &&
-        (decodedJwt.role !== 'clerk'))
-    ) {
+
+    let allowedRoutes: Array<string> = [];
+    if (decodedJwt.role === 'admin') {
+      allowedRoutes = adminRoutes;
+    } else if (decodedJwt.role === 'clerk') {
+      allowedRoutes = clerkRoutes;
+    } else if (decodedJwt.role === 'user') {
+      allowedRoutes = userRoutes;
+    }
+
+    if (!allowedRoutes.some((route) => req.nextUrl.pathname.startsWith(route))) {
       return NextResponse.redirect(new URL('/dashboard', req.url));
     }
   } else {
