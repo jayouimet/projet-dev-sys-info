@@ -39,7 +39,7 @@ interface UsersUpsertModalProps {
   isModalOpen: boolean;
   action: UpsertModalAction;
   onClose: () => void;
-  onSubmitCallback: (category: ISGPUser) => void;
+  onSubmitCallback: (user: ISGPUser) => void;
   user: ISGPUser | undefined;
 }
 

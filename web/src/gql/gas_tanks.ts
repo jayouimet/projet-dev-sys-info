@@ -25,7 +25,7 @@ export const GET_GAS_TANKS = gql`
 ////////////////////////////////////////////////////////////////////////////////
 
 export const INSERT_GAS_TANK = gql`
-  mutation insertGasTank ($data: gas_tank_insert_input!) {
+  mutation insertGasTank ($data: gas_tanks_insert_input!) {
     insert_gas_tanks_one(object: $data) {
       id
       name

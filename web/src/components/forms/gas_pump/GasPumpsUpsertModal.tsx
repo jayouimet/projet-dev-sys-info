@@ -12,11 +12,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
   Select,
 } from '@chakra-ui/react';
 import SelectOption from '@components/base/SelectOption';
@@ -28,63 +23,61 @@ import {
 import { UpsertModalAction } from '@sgp_types/enums/UpsertModalAction';
 import { useMutation, useQuery } from '@apollo/client';
 import ISGPGasTank from '@sgp_types/SGPGasTank/ISGPGasTank';
-import { GET_GAS_TYPES } from '@gql/gas_types';
-import { INSERT_GAS_TANK, UPDATE_GAS_TANK_BY_PK } from '@gql/gas_tanks';
-import ISGPGasType from '@sgp_types/SGPGasType/ISGPGasType';
+import ISGPGasPump from '@sgp_types/SGPGasPump/ISGPGasPump';
+import { INSERT_GAS_PUMP, UPDATE_GAS_PUMP_BY_PK } from '@gql/gas_pumps';
+import { GET_GAS_TANKS } from '@gql/gas_tanks';
 
-interface TanksUpsertModalProps {
+interface GasPumpsUpsertModalProps {
   isModalOpen: boolean;
   action: UpsertModalAction;
   onClose: () => void;
-  onSubmitCallback: (gas_tank: ISGPGasTank) => void;
-  tank: ISGPGasTank | undefined;
+  onSubmitCallback: (gas_pump: ISGPGasPump) => void;
+  gas_pump: ISGPGasPump | undefined;
 }
 
-const TanksUpsertModal = ({
+const GasPumpsUpsertModal = ({
   isModalOpen,
   action,
   onClose,
   onSubmitCallback,
-  tank,
-}: TanksUpsertModalProps) => {
-  const [name, setName] = useState<string>(tank?.name || '');
-  const [volume, setVolume] = useState<number>(tank?.volume || 0);
-  const [gasTypeId, setGasTypeId] = useState<string | undefined>(tank?.gas_type_id || undefined);
-  const { data, loading, error, refetch } = useQuery(GET_GAS_TYPES, {
+  gas_pump,
+}: GasPumpsUpsertModalProps) => {
+  const [name, setName] = useState<string>(gas_pump?.name || '');
+  const [gasTankId, setGasTankId] = useState<string | undefined>(gas_pump?.gas_tank_id || undefined);
+  const { data, loading, error, refetch } = useQuery(GET_GAS_TANKS, {
     variables: {
       where: {}
     },
     onCompleted: (data) => {
-      if (data?.gas_types?.length > 0 && gasTypeId === undefined) {
-        setGasTypeId(data.gas_types[0].id);
+      if (data?.gas_tanks?.length > 0 && gasTankId === undefined) {
+        setGasTankId(data.gas_tanks[0].id);
       }
     }
   });
 
-  const [mutationAddGasTank] = useMutation(INSERT_GAS_TANK);
-  const [mutationUpdateGasTank] = useMutation(UPDATE_GAS_TANK_BY_PK);
+  const [mutationAddGasPump] = useMutation(INSERT_GAS_PUMP);
+  const [mutationUpdateGasPump] = useMutation(UPDATE_GAS_PUMP_BY_PK);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const data: ISGPGasTank = {
-      id: tank?.id || undefined,
+    const data: ISGPGasPump = {
+      id: gas_pump?.id || undefined,
       name: name,
-      volume: volume,
-      gas_type_id: gasTypeId,
+      gas_tank_id: gasTankId,
     };
       
     if (action === UpsertModalAction.INSERT) {
-      mutationAddGasTank({
+      mutationAddGasPump({
         variables: {
           data: data
         },
         onCompleted: (data) => {
-          onSubmitCallback(data.insert_gas_tanks_one);
+          onSubmitCallback(data.insert_gas_pumps_one);
         }
       });
     } else {
-      mutationUpdateGasTank({
+      mutationUpdateGasPump({
         variables: {
           pk_columns: {
             id: data?.id
@@ -92,7 +85,7 @@ const TanksUpsertModal = ({
           data: data,
         },
         onCompleted: (data) => {
-          onSubmitCallback(data.update_gas_tanks_by_pk);
+          onSubmitCallback(data.update_gas_pumps_by_pk);
         }
       });
     }
@@ -101,9 +94,8 @@ const TanksUpsertModal = ({
   return (
     <Modal isOpen={isModalOpen} onClose={onClose} isCentered size={'3xl'}>
       <ModalOverlay />
-
       <ModalContent maxH={'90%'} overflowY={'auto'}>
-        <ModalHeader>Gas Tank Form</ModalHeader>
+        <ModalHeader>Gas Pump Form</ModalHeader>
         <ModalCloseButton />
         <form onSubmit={(e) => handleSubmit(e)}>
           <ModalBody>
@@ -119,39 +111,20 @@ const TanksUpsertModal = ({
               />
             </FormControl>
             <FormControl isRequired mb={3}>
-              <FormLabel>Gas Type</FormLabel>
+              <FormLabel>Gas Tank</FormLabel>
               <Select
-                value={gasTypeId}
+                value={gasTankId}
                 onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-                  setGasTypeId(e.currentTarget.value);
+                  setGasTankId(e.currentTarget.value);
                 }}>
                 {
-                  !loading && !error && data.gas_types.map((gas_type: ISGPGasType) => {
+                  !loading && !error && data.gas_tanks.map((gas_tank: ISGPGasTank) => {
                     return (
-                      <SelectOption key={gas_type.id} value={gas_type.id}>{gas_type.name}</SelectOption>
+                      <SelectOption key={gas_tank.id} value={gas_tank.id}>{gas_tank.name}</SelectOption>
                     );
                   })
                 }
               </Select>
-            </FormControl>
-            <FormControl isRequired mb={3}>
-              <FormLabel>Volume</FormLabel>
-              <NumberInput
-                name={'volume'}
-                value={volume || 0}
-                onChange={(
-                  valueAsString: string,
-                  valueAsNumber: number,
-                ) => {
-                  setVolume(valueAsNumber);
-                }}
-              >
-                <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
             </FormControl>
           </ModalBody>
           <ModalFooter>
@@ -168,4 +141,4 @@ const TanksUpsertModal = ({
   );
 };
 
-export default TanksUpsertModal;
+export default GasPumpsUpsertModal;
