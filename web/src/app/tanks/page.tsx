@@ -3,7 +3,8 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { Box, Button, Card, CardBody, CardHeader, Flex, Heading, Spacer } from "@chakra-ui/react";
 import DataTable from "@components/DataTable";
-import TanksUpsertModal from "@components/forms/tanks/TanksUpsertModal";
+import GasTanksShowModal from "@components/forms/gas_tanks/GasTanksShowModal";
+import GasTanksUpsertModal from "@components/forms/gas_tanks/GasTanksUpsertModal";
 import { DELETE_GAS_TANK, GET_GAS_TANKS } from "@gql/gas_tanks";
 import ISGPGasTank from "@sgp_types/SGPGasTank/ISGPGasTank";
 import { UpsertModalAction } from "@sgp_types/enums/UpsertModalAction";
@@ -43,6 +44,7 @@ const GasTanksPage = () => {
   const { data: session } = useSession();
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isShowModalOpen, setIsShowModalOpen] = useState<boolean>(false);
   const [upsertAction, setUpsertAction] = useState<UpsertModalAction>(UpsertModalAction.INSERT);
   const [selectedGasTank, setSelectedGasTank] = useState<ISGPGasTank | undefined>(undefined);
 
@@ -86,6 +88,16 @@ const GasTanksPage = () => {
     setIsModalOpen(false);
   }
 
+  const handleShow = (gas_tank: ISGPGasTank) => {
+    setSelectedGasTank(gas_tank);
+    setIsShowModalOpen(true);
+  }
+
+  const handleShowClose = () => {
+    setSelectedGasTank(undefined);
+    setIsShowModalOpen(false);
+  }
+
   return (
     <Card 
       w={'100%'}
@@ -106,6 +118,7 @@ const GasTanksPage = () => {
         <DataTable 
           isDisabledEdit={() => { return session?.user.role !== 'admin' }}
           isDisabledDelete={() => { return session?.user.role !== 'admin' }}
+          handleDisplay={data => handleShow(data)}
           handleEdit={data => handleEdit(data)} 
           handleDelete={data => handleDelete(data)} 
           columns={columns} 
@@ -113,12 +126,19 @@ const GasTanksPage = () => {
         />
       </CardBody>
       {isModalOpen && (
-        <TanksUpsertModal
+        <GasTanksUpsertModal
           action={upsertAction}
           isModalOpen={isModalOpen}
-          tank={selectedGasTank}
+          gas_tank={selectedGasTank}
           onClose={handleClose}
           onSubmitCallback={onSubmitCallback}
+        />
+      )}
+      {isShowModalOpen && (
+        <GasTanksShowModal
+          isModalOpen={isShowModalOpen}
+          gas_tank={selectedGasTank}
+          onClose={handleShowClose}
         />
       )}
     </Card>

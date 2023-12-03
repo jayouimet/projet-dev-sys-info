@@ -37,19 +37,19 @@ interface TanksUpsertModalProps {
   action: UpsertModalAction;
   onClose: () => void;
   onSubmitCallback: (gas_tank: ISGPGasTank) => void;
-  tank: ISGPGasTank | undefined;
+  gas_tank: ISGPGasTank | undefined;
 }
 
-const TanksUpsertModal = ({
+const GasTanksUpsertModal = ({
   isModalOpen,
   action,
   onClose,
   onSubmitCallback,
-  tank,
+  gas_tank,
 }: TanksUpsertModalProps) => {
-  const [name, setName] = useState<string>(tank?.name || '');
-  const [volume, setVolume] = useState<number>(tank?.volume || 0);
-  const [gasTypeId, setGasTypeId] = useState<string | undefined>(tank?.gas_type_id || undefined);
+  const [name, setName] = useState<string>(gas_tank?.name || '');
+  const [volume, setVolume] = useState<number>(gas_tank?.volume || 0);
+  const [gasTypeId, setGasTypeId] = useState<string | undefined>(gas_tank?.gas_type_id || undefined);
   const { data, loading, error, refetch } = useQuery(GET_GAS_TYPES, {
     variables: {
       where: {}
@@ -68,7 +68,7 @@ const TanksUpsertModal = ({
     e.preventDefault();
 
     const data: ISGPGasTank = {
-      id: tank?.id || undefined,
+      id: gas_tank?.id || undefined,
       name: name,
       volume: volume,
       gas_type_id: gasTypeId,
@@ -168,4 +168,4 @@ const TanksUpsertModal = ({
   );
 };
 
-export default TanksUpsertModal;
+export default GasTanksUpsertModal;

@@ -20,6 +20,7 @@ interface DataTableProps<Data extends object> {
   handleDisplay?: (data: Data) => void;
   isDisabledEdit?: (data: Data) => boolean;
   isDisabledDelete?: (data: Data) => boolean;
+  isDisabledShow?: (data: Data) => boolean;
 };
 
 function DataTable<Data extends object>({
@@ -30,6 +31,7 @@ function DataTable<Data extends object>({
   handleDisplay,
   isDisabledEdit,
   isDisabledDelete,
+  isDisabledShow,
 }: DataTableProps<Data>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const table = useReactTable({
@@ -99,7 +101,7 @@ function DataTable<Data extends object>({
                 <Stack direction={"row"}>
                   {
                     handleDisplay &&
-                    <Button colorScheme="white" onClick={() => handleDisplay(row.original)}>Display</Button>
+                    <Button isDisabled={isDisabledShow && isDisabledShow(row.original)} colorScheme="white" onClick={() => handleDisplay(row.original)}>Show</Button>
                   }
                   <Button isDisabled={isDisabledEdit && isDisabledEdit(row.original)} onClick={() => handleEdit(row.original)}>Edit</Button>
                   <Button isDisabled={isDisabledDelete && isDisabledDelete(row.original)} colorScheme="red" onClick={() => handleDelete(row.original)}>Delete</Button>
