@@ -8,11 +8,16 @@ const { defineMultiStyleConfig } = createMultiStyleConfigHelpers(
 );
 
 const Input = defineMultiStyleConfig({
+  // The default size and variant values
+  defaultProps: {
+    // colorScheme: 'brand.primary.green',
+    // variant: 'solid',
+  },
   // The styles all button have in common
   baseStyle: ({ colorScheme }) => ({
     field: {
       fontWeight: 'normal',
-      borderRadius: 'full',
+      borderRadius: '4px',
     },
   }),
   sizes: {},
@@ -23,6 +28,7 @@ const Input = defineMultiStyleConfig({
           borderColor: `${colorScheme}.100`,
           borderWidth: '1px',
           boxShadow: 'none',
+          color: 'white',
         },
       },
     }),
@@ -34,11 +40,6 @@ const Input = defineMultiStyleConfig({
         },
       },
     }),
-  },
-  // The default size and variant values
-  defaultProps: {
-    colorScheme: 'brand.primary.green',
-    variant: 'solid',
   },
 });
 

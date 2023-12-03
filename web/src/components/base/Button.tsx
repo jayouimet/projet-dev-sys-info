@@ -5,7 +5,7 @@ const Button = defineStyleConfig({
   baseStyle: {
     fontWeight: 'semibold',
     textTransform: 'uppercase',
-    borderRadius: '25px',
+    borderRadius: '4px',
     transition: '300ms',
     gap: 2,
     // _hover: {

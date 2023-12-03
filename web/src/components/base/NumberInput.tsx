@@ -12,7 +12,7 @@ const NumberInput = defineMultiStyleConfig({
   baseStyle: ({ colorScheme }) => ({
     field: {
       fontWeight: 'normal',
-      borderRadius: 'full',
+      borderRadius: '4px',
     },
   }),
   sizes: {},
@@ -20,6 +20,7 @@ const NumberInput = defineMultiStyleConfig({
     solid: ({ colorScheme }) => ({
       field: {
         background: 'brand.primary.gray.400',
+        color: 'white',
         _focusVisible: {
           shadow: 'lg',
         },
@@ -31,8 +32,8 @@ const NumberInput = defineMultiStyleConfig({
   },
   // The default size and variant values
   defaultProps: {
-    colorScheme: 'brand.primary.green',
-    variant: 'solid',
+    // colorScheme: 'brand.primary.green',
+    // variant: 'solid',
   },
 });
 

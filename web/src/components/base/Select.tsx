@@ -12,7 +12,7 @@ const Select = defineMultiStyleConfig({
   baseStyle: ({ colorScheme }) => ({
     field: {
       fontWeight: 'normal',
-      borderRadius: 'full',
+      borderRadius: '4px',
     },
   }),
   sizes: {},
@@ -23,6 +23,7 @@ const Select = defineMultiStyleConfig({
           borderColor: `${colorScheme}.100`,
           borderWidth: '1px',
           boxShadow: 'none',
+          color: 'white',
         },
       },
     }),
@@ -34,8 +35,8 @@ const Select = defineMultiStyleConfig({
   },
   // The default size and variant values
   defaultProps: {
-    colorScheme: 'brand.primary.green',
-    variant: 'solid',
+    // colorScheme: 'brand.primary.green',
+    // variant: 'solid',
   },
 });
 
