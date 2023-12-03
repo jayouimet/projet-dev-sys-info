@@ -63,7 +63,9 @@ const UsersUpsertModal = ({
       where: {}
     },
     onCompleted: (data) => {
-      setRoleId(data.roles.find((role: ISGPRole) => { return role.name === 'user' }).id);
+      if (roleId === undefined) {
+        setRoleId(data.roles.find((role: ISGPRole) => { return role.name === 'user' }).id);
+      }
     }
   });
 
