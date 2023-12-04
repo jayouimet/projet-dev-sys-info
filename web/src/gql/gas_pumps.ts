@@ -15,6 +15,7 @@ export const GET_GAS_PUMPS = gql`
       id
       name
       gas_tank_id
+      is_smart
       gas_tank {
         id
         name
@@ -30,9 +31,15 @@ export const GET_GAS_PUMPS = gql`
 `
 export const GET_GAS_PUMPS_USERS = gql`
   query ($where: gas_pumps_bool_exp!) {
-    gas_pumps (where: $where) {
+    gas_pumps (
+      where: $where,
+      order_by: {
+        name: asc
+      }
+    ) {
       id
       name
+      is_smart
       gas_tank {
         gas_type {
           name

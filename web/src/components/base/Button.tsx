@@ -25,6 +25,11 @@ const Button = defineStyleConfig({
     //   py: 4,
     // },
   },
+  // The default size and variant values
+  defaultProps: {
+    variant: 'outline',
+    colorScheme: 'brand.primary.green',
+  },
   // Two variants: outline and solid
   variants: {
     outline: ({ colorScheme }) => ({
@@ -36,6 +41,45 @@ const Button = defineStyleConfig({
       _hover: {
         bg: `${colorScheme}.500`,
       },
+    }),
+    red: ({ colorScheme }) => ({
+      border: '5px solid white',
+      color: 'white',
+      bgColor: 'red.500',
+      _hover: {
+        bg: `red.700`,
+      },
+      _disabled: {
+        _hover: {
+          bgColor: `red.500 !important`,
+        }
+      }
+    }),
+    green: ({ colorScheme }) => ({
+      border: '5px solid white',
+      color: 'white',
+      bgColor: 'green.500',
+      _hover: {
+        bg: `green.700`,
+      },
+      _disabled: {
+        _hover: {
+          bgColor: `green.500 !important`,
+        }
+      }
+    }),
+    blue: ({ colorScheme }) => ({
+      border: '5px solid white',
+      color: 'white',
+      bgColor: 'blue.500',
+      _hover: {
+        bg: `blue.700`,
+      },
+      _disabled: {
+        _hover: {
+          bgColor: `blue.500 !important`,
+        }
+      }
     }),
     // outline: {
     //   border: "2px solid",
@@ -52,11 +96,6 @@ const Button = defineStyleConfig({
     //     // bg: "transparent",
     //   },
     // },
-  },
-  // The default size and variant values
-  defaultProps: {
-    variant: 'outline',
-    colorScheme: 'brand.primary.green',
   },
 });
 
