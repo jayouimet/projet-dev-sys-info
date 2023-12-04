@@ -15,6 +15,18 @@ select_permissions:
   - role: clerk
     permission:
       columns:
+        - created_at
+        - gas_tank_id
+        - id
+        - is_smart
+        - name
+        - updated_at
+      filter: {}
+    comment: ""
+  - role: user
+    permission:
+      columns:
+        - is_smart
         - name
         - created_at
         - updated_at

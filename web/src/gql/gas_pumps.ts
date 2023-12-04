@@ -28,6 +28,20 @@ export const GET_GAS_PUMPS = gql`
     }
   }
 `
+export const GET_GAS_PUMPS_USERS = gql`
+  query ($where: gas_pumps_bool_exp!) {
+    gas_pumps (where: $where) {
+      id
+      name
+      gas_tank {
+        gas_type {
+          name
+          price
+        }
+      }
+    }
+  }
+`
 
 ////////////////////////////////////////////////////////////////////////////////
 /*--------------------------     INSERTIONS    -------------------------------*/

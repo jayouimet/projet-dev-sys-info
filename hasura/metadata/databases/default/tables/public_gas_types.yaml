@@ -22,3 +22,10 @@ select_permissions:
         - id
       filter: {}
     comment: ""
+  - role: user
+    permission:
+      columns:
+        - name
+        - price
+      filter: {}
+    comment: ""

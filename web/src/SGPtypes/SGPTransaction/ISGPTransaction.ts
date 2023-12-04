@@ -1,7 +1,7 @@
 import ISGPUser from "@sgp_types/SGPUser/ISGPUser";
 
 export default interface ISGPTransaction {
-  id: string;
+  id?: string;
   total: number;
   subtotal: number;
   volume: number;
@@ -12,5 +12,6 @@ export default interface ISGPTransaction {
   };
   user?: ISGPUser;
   unit_price: number;
-  created_at: string;
+  created_at?: string;
+  user_id?: string;
 }

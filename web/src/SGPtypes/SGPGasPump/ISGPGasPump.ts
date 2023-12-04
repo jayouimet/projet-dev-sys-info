@@ -4,5 +4,6 @@ export default interface ISGPGasPump {
   id?: string;
   name: string;
   gas_tank_id?: string;
-  gas_tank?: ISGPGasTank
+  gas_tank?: ISGPGasTank;
+  is_smart?: boolean;
 }

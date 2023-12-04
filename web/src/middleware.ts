@@ -54,7 +54,7 @@ export async function middleware(req: NextRequest) {
     } else if (decodedJwt.role === 'clerk') {
       allowedRoutes = clerkRoutes;
     } else if (decodedJwt.role === 'user') {
-      allowedRoutes = userRoutes;
+      return NextResponse.redirect(new URL('/pump', req.url));
     }
 
     if (!allowedRoutes.some((route) => req.nextUrl.pathname.startsWith(route))) {
