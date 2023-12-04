@@ -6,10 +6,16 @@ import { gql } from "@apollo/client";
 
 export const GET_GAS_TANKS = gql`
   query getGasTanks ($where: gas_tanks_bool_exp!) {
-    gas_tanks (where: $where) {
+    gas_tanks (
+      where: $where,
+      order_by: {
+        name: asc
+      }
+    ) {
       id
       name
       volume
+      max_volume
       gas_type_id
       gas_type {
         id
@@ -30,6 +36,7 @@ export const INSERT_GAS_TANK = gql`
       id
       name
       volume
+      max_volume
       gas_type {
         id
         name
@@ -49,6 +56,7 @@ export const UPDATE_GAS_TANK_BY_PK = gql`
       id
       name
       volume
+      max_volume
       gas_type {
         id
         name

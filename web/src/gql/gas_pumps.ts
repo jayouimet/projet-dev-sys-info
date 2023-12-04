@@ -6,7 +6,12 @@ import { gql } from "@apollo/client";
 
 export const GET_GAS_PUMPS = gql`
   query getGasPumps ($where: gas_pumps_bool_exp!) {
-    gas_pumps (where: $where) {
+    gas_pumps (
+      where: $where,
+      order_by: {
+        name: asc
+      }
+    ) {
       id
       name
       gas_tank_id

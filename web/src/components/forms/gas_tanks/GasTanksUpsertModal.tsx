@@ -49,6 +49,7 @@ const GasTanksUpsertModal = ({
 }: TanksUpsertModalProps) => {
   const [name, setName] = useState<string>(gas_tank?.name || '');
   const [volume, setVolume] = useState<number>(gas_tank?.volume || 0);
+  const [maxVolume, setMaxVolume] = useState<number>(gas_tank?.max_volume || 0);
   const [gasTypeId, setGasTypeId] = useState<string | undefined>(gas_tank?.gas_type_id || undefined);
   const { data, loading, error, refetch } = useQuery(GET_GAS_TYPES, {
     variables: {
@@ -71,6 +72,7 @@ const GasTanksUpsertModal = ({
       id: gas_tank?.id || undefined,
       name: name,
       volume: volume,
+      max_volume: maxVolume,
       gas_type_id: gasTypeId,
     };
       
@@ -144,6 +146,25 @@ const GasTanksUpsertModal = ({
                   valueAsNumber: number,
                 ) => {
                   setVolume(valueAsNumber);
+                }}
+              >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </FormControl>
+            <FormControl isRequired mb={3}>
+              <FormLabel>Maximum Volume</FormLabel>
+              <NumberInput
+                name={'max_volume'}
+                value={maxVolume || 0}
+                onChange={(
+                  valueAsString: string,
+                  valueAsNumber: number,
+                ) => {
+                  setMaxVolume(valueAsNumber);
                 }}
               >
                 <NumberInputField />

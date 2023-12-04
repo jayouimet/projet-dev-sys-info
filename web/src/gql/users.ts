@@ -6,7 +6,12 @@ import { gql } from "@apollo/client";
 
 export const GET_USERS = gql`
   query getUsers ($where: users_bool_exp!) {
-    users (where: $where) {
+    users (
+      where: $where,
+      order_by: {
+        name: asc
+      }
+    ) {
       id
       name
       email

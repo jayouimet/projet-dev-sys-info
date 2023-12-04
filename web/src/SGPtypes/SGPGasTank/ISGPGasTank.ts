@@ -5,6 +5,7 @@ export default interface ISGPGasTank {
   id?: string;
   name: string;
   volume: number;
+  max_volume: number;
   gas_type_id?: string;
   gas_type?: ISGPGasType;
   gas_pumps?: Array<ISGPGasPump>;
