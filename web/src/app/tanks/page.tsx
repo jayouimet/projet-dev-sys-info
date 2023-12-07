@@ -25,8 +25,7 @@ const columns = [
       isNumeric: true
     }
   }),
-  // TODO : Add max volume
-  columnHelper.accessor("volume", {
+  columnHelper.accessor("max_volume", {
     cell: (info) => info.getValue(),
     header: "Maximum Volume",
     meta: {
