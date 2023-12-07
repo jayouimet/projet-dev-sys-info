@@ -99,7 +99,7 @@ const TransactionsPage = () => {
         border={"2px solid white"}>
         <CardHeader textAlign={'center'}>
           <Heading>
-            Creation d'un rapport
+            Creation d&apos;un rapport
           </Heading>
         </CardHeader>
         <CardBody my={20} w={'100%'}>
@@ -231,7 +231,7 @@ const TransactionsPage = () => {
                     <GridItem>#2</GridItem>
 
                     <GridItem>Moment du pompage</GridItem>
-                    <GridItem>{(new Date(selectedTransaction.created_at)).toLocaleString()}</GridItem>
+                    <GridItem>{selectedTransaction?.created_at ? (new Date(selectedTransaction.created_at)).toLocaleString() : ''}</GridItem>
 
                     <GridItem>Payé</GridItem>
                     <GridItem>{selectedTransaction.data.status === 'approved' ? 'Oui':'Non'}</GridItem>

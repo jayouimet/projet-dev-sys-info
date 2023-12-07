@@ -93,7 +93,7 @@ const GasTanksPage = () => {
     >
       <CardHeader>
         <Heading>
-          Réservoirs d'essence
+          Réservoirs d&apos;essence
         </Heading>
       </CardHeader>
       <CardBody>

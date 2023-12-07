@@ -123,6 +123,7 @@ function PumpPage() {
                   return (
                     <GridItem>
                       <Button
+                        key={item}
                         w={'95%'}
                         h={'90%'}
                         userSelect={'none'}

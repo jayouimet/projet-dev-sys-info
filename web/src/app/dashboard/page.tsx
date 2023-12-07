@@ -55,7 +55,7 @@ const DashboardPage = () => {
                 {!gas_pumps_loading &&
                   gas_pumps_data.gas_pumps.map((gas_pump: ISGPGasPump) => {
                     return (
-                      <Card p={4} w={'48%'}>
+                      <Card key={gas_pump.id} p={4} w={'48%'}>
                         <Stack w={'100%'} textAlign={'center'}>
                           <Box>
                             {gas_pump.name}
@@ -88,7 +88,7 @@ const DashboardPage = () => {
                 {!gas_tanks_loading && gas_tanks_data?.gas_tanks &&
                   gas_tanks_data.gas_tanks.map((gas_tank: ISGPGasTank) => {
                     return (
-                      <Stack justifyContent={'space-between'} w={'50%'}>
+                      <Stack key={gas_tank.id} justifyContent={'space-between'} w={'50%'}>
                         <Center>
                           <Box textAlign={'center'}>
                             {gas_tank.name}
