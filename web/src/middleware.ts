@@ -36,7 +36,6 @@ export async function middleware(req: NextRequest) {
   ];
 
   const userRoutes = [
-    '/dashboard',
     '/pump',
   ];
 
@@ -54,10 +53,13 @@ export async function middleware(req: NextRequest) {
     } else if (decodedJwt.role === 'clerk') {
       allowedRoutes = clerkRoutes;
     } else if (decodedJwt.role === 'user') {
-      return NextResponse.redirect(new URL('/pump', req.url));
+      allowedRoutes = userRoutes;
     }
 
     if (!allowedRoutes.some((route) => req.nextUrl.pathname.startsWith(route))) {
+      if (decodedJwt.role === 'user') {
+        return NextResponse.redirect(new URL('/pump', req.url));
+      }
       return NextResponse.redirect(new URL('/dashboard', req.url));
     }
   } else {
@@ -71,6 +73,7 @@ export const config = {
     '/dashboard/:path*',
     '/users/:path*',
     '/pumps/:path*',
+    '/pump/:path*',
     '/tanks/:path*',
     '/transactions/:path*',
     '/api/set_password/:path*',

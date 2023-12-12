@@ -2,10 +2,12 @@
 
 import { useQuery } from "@apollo/client";
 import { Card } from "@chakra-ui/card";
-import { Box, Button, Center, Flex, Grid, GridItem, Stack, useInterval } from "@chakra-ui/react";
+import { Box, Button, Center, Flex, Grid, GridItem, Icon, IconButton, Stack, useInterval } from "@chakra-ui/react";
 import { GET_GAS_PUMPS_USERS } from "@gql/gas_pumps";
 import ISGPGasPump from "@sgp_types/SGPGasPump/ISGPGasPump";
+import { signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { FiLogOut } from "react-icons/fi";
 
 function PumpPage() {
   const [isStarted, setIsStarted] = useState<boolean>(false);
@@ -66,7 +68,28 @@ function PumpPage() {
   return (
     <Card w={'100vw'} alignItems={'center'} h={'100vh'}>
       <Flex w={'100%'} h={'100%'} direction={'row'} pt={10}>
-        <Box flex={1}></Box>
+        <Box flex={1} pl={10}>
+          <IconButton
+            onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+              event.stopPropagation();
+              signOut();
+            }}
+            // onClick={onToggle}
+            aria-label="Logout"
+            icon={
+              <Icon 
+                as={FiLogOut}
+                fontSize="32"
+                // mt={'1px'}
+                _groupHover={{
+                  color: 'white',
+                }}
+              />
+            }
+            variant={"ghost"}
+            width={18}
+          />
+        </Box>
         <Stack alignItems={'center'} flex={1}>
           <Flex m={5} mt={10} gap={2}>
             {
