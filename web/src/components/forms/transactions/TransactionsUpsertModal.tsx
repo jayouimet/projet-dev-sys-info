@@ -49,7 +49,7 @@ const TransactionsUpsertModal = ({
   onSubmitCallback,
   transaction,
 }: TransactionsUpsertModalProps) => {
-  const {data: sessionData} = useSession();
+  const { data: sessionData } = useSession();
   const [unitPrice, setUnitPrice] = useState<number>(transaction?.unit_price || 0);
   const [volume, setVolume] = useState<number>(transaction?.volume || 0);
   const [type, setType] = useState<string>(transaction?.type || '');
@@ -61,19 +61,19 @@ const TransactionsUpsertModal = ({
     e.preventDefault();
     const subtotal = Math.round(unitPrice * volume / 100);
     const taxes = Math.round(subtotal * 0.14975);
-    
+
     const obj: ISGPTransaction = {
       id: transaction?.id || undefined,
       volume: volume,
       unit_price: unitPrice,
-      data: {status: 'approved'},
+      data: { status: 'approved' },
       type: type,
       subtotal: subtotal,
       taxes: taxes,
       total: subtotal + taxes,
       user_id: sessionData?.user.id
     };
-      
+
     if (action === UpsertModalAction.INSERT) {
       mutationAddTransaction({
         variables: {
@@ -111,7 +111,7 @@ const TransactionsUpsertModal = ({
               <FormLabel>Volume</FormLabel>
               <NumberInput
                 name={'volume'}
-                value={volume / 100 || 0}
+                value={(volume / 100) || 0}
                 onChange={(
                   valueAsString: string,
                   valueAsNumber: number,
@@ -146,15 +146,13 @@ const TransactionsUpsertModal = ({
               </NumberInput>
             </FormControl>
             <FormControl isRequired mb={3}>
-              <FormLabel>Type</FormLabel>
-              <Input
-                type="text"
-                name="type"
-                value={type || ''}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  setType(e.currentTarget.value);
-                }}
-              />
+              <FormLabel>Type de transaction</FormLabel>
+              <Select value={type || 'credit'} onChange={(e) => {
+                setType(e.target.value);
+              }}>
+                <SelectOption value='credit'>Crédit</SelectOption>
+                <SelectOption value='debit'>Débit</SelectOption>
+              </Select>
             </FormControl>
           </ModalBody>
           <ModalFooter>

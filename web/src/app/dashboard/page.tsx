@@ -41,7 +41,7 @@ const DashboardPage = () => {
     },
     onError: (e) => console.log(e)
   });
-  console.log(gas_tanks_data);
+  
   return (
     <Box w={"100%"}>
       <Stack dir={"column"} align={"center"}>
@@ -108,13 +108,16 @@ const DashboardPage = () => {
           </Flex>
         }
       </Stack>
-      <TransactionsUpsertModal 
-        isModalOpen={transaction !== undefined}
-        onSubmitCallback={() => setTransaction(undefined)}
-        transaction={transaction}
-        action={UpsertModalAction.INSERT}
-        onClose={() => setTransaction(undefined)}
+      {
+        transaction !== undefined &&
+        <TransactionsUpsertModal
+          isModalOpen={transaction !== undefined}
+          onSubmitCallback={() => setTransaction(undefined)}
+          transaction={transaction}
+          action={UpsertModalAction.INSERT}
+          onClose={() => setTransaction(undefined)}
         />
+      }
     </Box>
   );
 }
