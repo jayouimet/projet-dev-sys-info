@@ -50,8 +50,6 @@ const TransactionsUpsertModal = ({
   transaction,
 }: TransactionsUpsertModalProps) => {
   const { data: sessionData } = useSession();
-  const [unitPrice, setUnitPrice] = useState<number>(transaction?.unit_price || 0);
-  const [volume, setVolume] = useState<number>(transaction?.volume || 0);
   const [type, setType] = useState<string>(transaction?.type || '');
 
   const [mutationAddTransaction] = useMutation(INSERT_TRANSACTION);
@@ -59,18 +57,15 @@ const TransactionsUpsertModal = ({
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const subtotal = Math.round(unitPrice * volume / 100);
-    const taxes = Math.round(subtotal * 0.14975);
-
     const obj: ISGPTransaction = {
       id: transaction?.id || undefined,
-      volume: volume,
-      unit_price: unitPrice,
+      volume: parseFloat((transaction?.volume || 0).toFixed(2)),
+      unit_price: transaction?.unit_price || 0,
       data: { status: 'approved' },
       type: type,
-      subtotal: subtotal,
-      taxes: taxes,
-      total: subtotal + taxes,
+      subtotal: transaction?.subtotal || 0,
+      taxes: transaction?.taxes || 0,
+      total: transaction?.total || 0,
       user_id: sessionData?.user.id
     };
 
@@ -107,43 +102,29 @@ const TransactionsUpsertModal = ({
         <ModalCloseButton />
         <form onSubmit={(e) => handleSubmit(e)}>
           <ModalBody>
-            <FormControl isRequired mb={3}>
+            <FormControl isDisabled isRequired mb={3}>
               <FormLabel>Volume</FormLabel>
-              <NumberInput
-                name={'volume'}
-                value={(volume / 100) || 0}
-                onChange={(
-                  valueAsString: string,
-                  valueAsNumber: number,
-                ) => {
-                  setVolume(Math.round(valueAsNumber * 100));
-                }}
-              >
-                <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
+              <Input
+                value={(transaction?.volume.toFixed(2)) || 0}
+              />
             </FormControl>
-            <FormControl isRequired mb={3}>
+            <FormControl isDisabled isRequired mb={3}>
               <FormLabel>Unit Price</FormLabel>
-              <NumberInput
-                name={'unit_price'}
-                value={unitPrice / 100 || 0}
-                onChange={(
-                  valueAsString: string,
-                  valueAsNumber: number,
-                ) => {
-                  setUnitPrice(Math.round(valueAsNumber * 100));
-                }}
-              >
-                <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
+              <Input
+                value={transaction?.unit_price ? transaction?.unit_price / 100 : 0}
+              />
+            </FormControl>
+            <FormControl isDisabled isRequired mb={3}>
+              <FormLabel>Sous-Total</FormLabel>
+              <Input value={(transaction?.subtotal ? transaction?.subtotal / 100 : 0)?.toFixed(2)}/>
+            </FormControl>
+            <FormControl isDisabled isRequired mb={3}>
+              <FormLabel>Taxes</FormLabel>
+              <Input value={(transaction?.taxes ? transaction?.taxes / 100 : 0)?.toFixed(2)}/>
+            </FormControl>
+            <FormControl isDisabled isRequired mb={3}>
+              <FormLabel>Total</FormLabel>
+              <Input value={(transaction?.total ? transaction?.total / 100 : 0)?.toFixed(2)}/>
             </FormControl>
             <FormControl isRequired mb={3}>
               <FormLabel>Type de transaction</FormLabel>

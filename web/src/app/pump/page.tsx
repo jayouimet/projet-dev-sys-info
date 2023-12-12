@@ -23,6 +23,7 @@ function PumpPage() {
     setWantedVolume(0);
     setIsPumping(false);
     setIsStarted(false);
+    setUiLocked(false);
     setCost(0);
   }
 

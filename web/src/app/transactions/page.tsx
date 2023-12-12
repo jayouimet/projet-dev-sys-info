@@ -17,7 +17,7 @@ const columns = [
     header: "Type"
   }),
   columnHelper.accessor("volume", {
-    cell: (info) => info.getValue() / 100,
+    cell: (info) => info.getValue(),
     header: "Volume",
     meta: {
       isNumeric: true
@@ -37,6 +37,7 @@ const TransactionsPage = () => {
     variables: {
       where: {}
     },
+    fetchPolicy: 'no-cache'
   });
   const [selectedFilter, setSelectedFilter] = useState<{
     variable: string,
@@ -237,7 +238,7 @@ const TransactionsPage = () => {
                     <GridItem>{selectedTransaction.data.status === 'approved' ? 'Oui':'Non'}</GridItem>
 
                     <GridItem>Volume</GridItem>
-                    <GridItem>{selectedTransaction.volume / 100} L</GridItem>
+                    <GridItem>{selectedTransaction.volume} L</GridItem>
 
                     <GridItem>Sous-Total</GridItem>
                     <GridItem>{selectedTransaction.subtotal / 100} $</GridItem>

@@ -54,6 +54,8 @@ const DashboardPage = () => {
               <Flex px={4} gap={4} direction={'row'} flexWrap={'wrap'}>
                 {!gas_pumps_loading &&
                   gas_pumps_data.gas_pumps.map((gas_pump: ISGPGasPump) => {
+                    let random = Math.random() * (45 - 15) + 15;
+
                     return (
                       <Card key={gas_pump.id} p={4} w={'48%'}>
                         <Stack w={'100%'} textAlign={'center'}>
@@ -61,15 +63,18 @@ const DashboardPage = () => {
                             {gas_pump.name}
                           </Box>
                           <Box>
-                            {"Quantité pompée : 18.0L"}
+                            {`Quantité pompée : ${random.toFixed(2)}L`}
                           </Box>
                           <Button onClick={() => {
+                            let sub_total = Math.floor(random * (gas_pump.gas_tank?.gas_type?.price || 100));
+                            let taxes = Math.floor(sub_total * 0.09975 + sub_total * 0.05);
+
                             setTransaction({
-                              volume: 1800,
+                              volume: random,
                               unit_price: gas_pump.gas_tank?.gas_type?.price || 100,
-                              total: 0,
-                              subtotal: 0,
-                              taxes: 0,
+                              total: sub_total + taxes,
+                              subtotal: sub_total,
+                              taxes: taxes,
                               type: '',
                               data: {}
                             });
