@@ -1,5 +1,4 @@
 - "!include public_gas_pumps.yaml"
-- "!include public_gas_stations.yaml"
 - "!include public_gas_tanks.yaml"
 - "!include public_gas_types.yaml"
 - "!include public_roles.yaml"
