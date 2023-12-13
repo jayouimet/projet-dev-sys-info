@@ -87,7 +87,6 @@ const TransactionsPage = () => {
         <CardBody>
           <DataTable
             handleDisplay={data => setSelectedTransaction(data)}
-            handleEdit={data => console.log(data)}
             handleDelete={data => handleDelete(data)}
             columns={columns}
             data={loading ? [] : data.transactions}

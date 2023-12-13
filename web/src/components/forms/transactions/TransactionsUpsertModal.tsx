@@ -18,6 +18,10 @@ import {
   NumberInputField,
   NumberInputStepper,
   Select,
+  Table,
+  Td,
+  Text,
+  Tr,
 } from '@chakra-ui/react';
 import SelectOption from '@components/base/SelectOption';
 import {
@@ -50,7 +54,7 @@ const TransactionsUpsertModal = ({
   transaction,
 }: TransactionsUpsertModalProps) => {
   const { data: sessionData } = useSession();
-  const [type, setType] = useState<string>(transaction?.type || '');
+  const [type, setType] = useState<string>(transaction?.type || 'credit');
 
   const [mutationAddTransaction] = useMutation(INSERT_TRANSACTION);
   const [mutationUpdateTransaction] = useMutation(UPDATE_TRANSACTION_BY_PK);
@@ -102,30 +106,32 @@ const TransactionsUpsertModal = ({
         <ModalCloseButton />
         <form onSubmit={(e) => handleSubmit(e)}>
           <ModalBody>
-            <FormControl isDisabled isRequired mb={3}>
-              <FormLabel>Volume</FormLabel>
-              <Input
-                value={(transaction?.volume.toFixed(2)) || 0}
-              />
-            </FormControl>
-            <FormControl isDisabled isRequired mb={3}>
-              <FormLabel>Unit Price</FormLabel>
-              <Input
-                value={transaction?.unit_price ? transaction?.unit_price / 100 : 0}
-              />
-            </FormControl>
-            <FormControl isDisabled isRequired mb={3}>
-              <FormLabel>Sous-Total</FormLabel>
-              <Input value={(transaction?.subtotal ? transaction?.subtotal / 100 : 0)?.toFixed(2)}/>
-            </FormControl>
-            <FormControl isDisabled isRequired mb={3}>
-              <FormLabel>Taxes</FormLabel>
-              <Input value={(transaction?.taxes ? transaction?.taxes / 100 : 0)?.toFixed(2)}/>
-            </FormControl>
-            <FormControl isDisabled isRequired mb={3}>
-              <FormLabel>Total</FormLabel>
-              <Input value={(transaction?.total ? transaction?.total / 100 : 0)?.toFixed(2)}/>
-            </FormControl>
+            <Text>Informations de transaction</Text>
+            <Table mb={6}>
+              <Tr>
+                <Td>Volume</Td>
+                <Td>{(transaction?.volume.toFixed(2)) || 0}</Td>
+              </Tr>
+              <Tr mb={3}>
+                <Td>Unit Price</Td>
+                <Td>
+                  {transaction?.unit_price ? transaction?.unit_price / 100 : 0}
+                </Td>
+              </Tr>
+              <Tr mb={3}>
+                <Td>Sous-Total</Td>
+                <Td>{(transaction?.subtotal ? transaction?.subtotal / 100 : 0)?.toFixed(2)}</Td>
+              </Tr>
+              <Tr mb={3}>
+                <Td>Taxes</Td>
+                <Td>{(transaction?.taxes ? transaction?.taxes / 100 : 0)?.toFixed(2)}</Td>
+              </Tr>
+              <Tr mb={3}>
+                <Td>Total</Td>
+                <Td>{(transaction?.total ? transaction?.total / 100 : 0)?.toFixed(2)}</Td>
+              </Tr>
+            </Table>
+            
             <FormControl isRequired mb={3}>
               <FormLabel>Type de transaction</FormLabel>
               <Select value={type || 'credit'} onChange={(e) => {

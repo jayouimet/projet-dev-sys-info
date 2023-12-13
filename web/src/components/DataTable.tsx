@@ -96,15 +96,21 @@ function DataTable<Data extends object>({
               );
             })}
             {
-              handleEdit && handleDelete &&
+              (handleEdit || handleDelete || handleDisplay) &&
               <Td>
                 <Stack direction={"row"}>
                   {
                     handleDisplay &&
                     <Button isDisabled={isDisabledShow && isDisabledShow(row.original)} colorScheme="white" onClick={() => handleDisplay(row.original)}>Show</Button>
                   }
-                  <Button isDisabled={isDisabledEdit && isDisabledEdit(row.original)} onClick={() => handleEdit(row.original)}>Edit</Button>
-                  <Button isDisabled={isDisabledDelete && isDisabledDelete(row.original)} colorScheme="red" onClick={() => handleDelete(row.original)}>Delete</Button>
+                  { 
+                    handleEdit &&
+                    <Button isDisabled={isDisabledEdit && isDisabledEdit(row.original)} onClick={() => handleEdit(row.original)}>Edit</Button>
+                  }
+                  {
+                    handleDelete &&
+                    <Button isDisabled={isDisabledDelete && isDisabledDelete(row.original)} colorScheme="red" onClick={() => handleDelete(row.original)}>Delete</Button>
+                  }
                 </Stack>
               </Td>}
           </Tr>
